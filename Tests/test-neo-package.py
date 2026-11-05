@@ -37,4 +37,79 @@ class PackageTests(unittest.TestCase):
  def test_non_executable_resources_untouched(self):
   app,main,nested=self.fixture();resource=app/'Contents/icon.png';resource.write_bytes(b'PNG resource fixture')
   self.module.thin_bundle(app);self.assertEqual(resource.read_bytes(),b'PNG resource fixture')
+ def linked_fixture(self, location='Frameworks', runpath='@executable_path/../Frameworks', install_name='@rpath/libfixture.dylib'):
+  app=self.root/'Subler Neo.app';main=app/'Contents/MacOS/Neo';main.parent.mkdir(parents=True,exist_ok=True)
+  library=app/'Contents'/location/'libfixture.dylib';library.parent.mkdir(parents=True,exist_ok=True)
+  source=self.root/'library.c';source.write_text('int fixture(void){return 0;}\n')
+  subprocess.run(['xcrun','clang','-arch','arm64','-dynamiclib',str(source),'-Wl,-install_name,'+install_name,'-o',str(library)],check=True)
+  source=self.root/'consumer.c';source.write_text('extern int fixture(void);int main(void){return fixture();}\n')
+  flags=['-Wl,-rpath,'+runpath] if runpath else []
+  subprocess.run(['xcrun','clang','-arch','arm64',str(source),str(library),*flags,'-o',str(main)],check=True)
+  return app,main,library
+ def test_library_present_but_outside_runpath_is_rejected(self):
+  app,main,library=self.linked_fixture(location='Resources')
+  with self.assertRaisesRegex(RuntimeError,'libfixture.dylib'):
+   self.module.validate_dependencies(app,self.module.thin_bundle(app))
+ def test_valid_executable_runpath_and_loader_relative_reference(self):
+  for name in ['@rpath/libfixture.dylib','@loader_path/../Frameworks/libfixture.dylib']:
+   with self.subTest(install_name=name):
+    app,main,library=self.linked_fixture(install_name=name)
+    self.module.validate_dependencies(app,self.module.thin_bundle(app))
+ def test_transitive_library_inherits_executable_runpath(self):
+  app,main,library=self.linked_fixture()
+  parent=app/'Contents/Frameworks/libparent.dylib'
+  source=self.root/'parent.c';source.write_text('extern int fixture(void);int parent(void){return fixture();}\n')
+  subprocess.run(['xcrun','clang','-arch','arm64','-dynamiclib',str(source),str(library),'-Wl,-install_name,@rpath/libparent.dylib','-o',str(parent)],check=True)
+  source=self.root/'parent-consumer.c';source.write_text('extern int parent(void);int main(void){return parent();}\n')
+  subprocess.run(['xcrun','clang','-arch','arm64',str(source),str(parent),'-Wl,-rpath,@executable_path/../Frameworks','-o',str(main)],check=True)
+  self.module.validate_dependencies(app,self.module.thin_bundle(app))
+ def test_loader_runpath_uses_declaring_library_directory(self):
+  app,main,library=self.linked_fixture(location='Frameworks/Nested')
+  parent=app/'Contents/Frameworks/libparent.dylib'
+  source=self.root/'parent.c';source.write_text('extern int fixture(void);int parent(void){return fixture();}\n')
+  subprocess.run(['xcrun','clang','-arch','arm64','-dynamiclib',str(source),str(library),'-Wl,-install_name,@rpath/libparent.dylib','-Wl,-rpath,@loader_path/Nested','-o',str(parent)],check=True)
+  source=self.root/'parent-consumer.c';source.write_text('extern int parent(void);int main(void){return parent();}\n')
+  subprocess.run(['xcrun','clang','-arch','arm64',str(source),str(parent),'-Wl,-rpath,@executable_path/../Frameworks','-o',str(main)],check=True)
+  self.module.validate_dependencies(app,self.module.thin_bundle(app))
+ def test_nested_helper_cannot_borrow_main_executable_runpaths(self):
+  app,main,library=self.linked_fixture()
+  helper=app/'Contents/Helpers/Helper';helper.parent.mkdir()
+  source=self.root/'consumer.c'
+  subprocess.run(['xcrun','clang','-arch','arm64',str(source),str(library),'-o',str(helper)],check=True)
+  with self.assertRaisesRegex(RuntimeError,'libfixture.dylib'):
+   self.module.validate_dependencies(app,self.module.thin_bundle(app))
+ def test_library_symlink_outside_bundle_is_rejected(self):
+  app,main,library=self.linked_fixture();outside=self.root/'outside.dylib';library.rename(outside);library.symlink_to(outside)
+  with self.assertRaisesRegex(RuntimeError,'libfixture.dylib'):
+   self.module.validate_dependencies(app,self.module.thin_bundle(app))
+ def test_escaped_first_runpath_cannot_be_hidden_by_later_bundled_copy(self):
+  app,main,library=self.linked_fixture();outside=self.root/'outside.dylib';shutil.copy2(library,outside)
+  fallback=app/'Contents/Resources/libfixture.dylib';fallback.parent.mkdir();library.rename(fallback);library.symlink_to(outside)
+  source=self.root/'consumer.c'
+  subprocess.run(['xcrun','clang','-arch','arm64',str(source),str(fallback),'-Wl,-rpath,@executable_path/../Frameworks','-Wl,-rpath,@executable_path/../Resources','-o',str(main)],check=True)
+  with self.assertRaisesRegex(RuntimeError,'libfixture.dylib'):
+   self.module.validate_dependencies(app,self.module.thin_bundle(app))
+ def test_empty_first_runpath_does_not_hide_valid_later_library(self):
+  app,main,library=self.linked_fixture();source=self.root/'consumer.c'
+  subprocess.run(['xcrun','clang','-arch','arm64',str(source),str(library),'-Wl,-rpath,@executable_path/../Empty','-Wl,-rpath,@executable_path/../Frameworks','-o',str(main)],check=True)
+  self.module.validate_dependencies(app,self.module.thin_bundle(app))
+ def test_helper_executable_path_is_its_actual_directory(self):
+  app,main,library=self.linked_fixture(location='Helpers/Libraries',runpath=None,install_name='@executable_path/Libraries/libfixture.dylib')
+  helper=app/'Contents/Helpers/Worker';main.rename(helper)
+  self.module.validate_dependencies(app,self.module.thin_bundle(app))
+ def test_unreferenced_library_has_no_guessed_executable_context(self):
+  app,main,library=self.linked_fixture()
+  source=self.root/'unused.c';source.write_text('int unused(void){return 0;}\n')
+  unused=app/'Contents/Frameworks/libunused.dylib'
+  subprocess.run(['xcrun','clang','-arch','arm64','-dynamiclib',str(source),'-Wl,-install_name,@rpath/libunused.dylib','-o',str(unused)],check=True)
+  with self.assertRaisesRegex(RuntimeError,'libunused.dylib'):
+   self.module.validate_dependencies(app,self.module.thin_bundle(app))
+ def test_cyclic_library_dependencies_terminate(self):
+  app,main,library=self.linked_fixture()
+  parent=app/'Contents/Frameworks/libparent.dylib'
+  source=self.root/'parent.c';source.write_text('extern int fixture(void);int parent(void){return fixture();}\n')
+  subprocess.run(['xcrun','clang','-arch','arm64','-dynamiclib',str(source),str(library),'-Wl,-install_name,@rpath/libparent.dylib','-o',str(parent)],check=True)
+  source=self.root/'library.c';source.write_text('extern int parent(void);int fixture(void){return parent();}\n')
+  subprocess.run(['xcrun','clang','-arch','arm64','-dynamiclib',str(source),str(parent),'-Wl,-install_name,@rpath/libfixture.dylib','-o',str(library)],check=True)
+  self.module.validate_dependencies(app,self.module.thin_bundle(app))
 if __name__=='__main__':unittest.main()

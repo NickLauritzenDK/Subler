@@ -22,34 +22,73 @@ def thin_bundle(app):
     return architectures
 
 def validate_dependencies(app, entries):
-    """Reject development-library references that cannot be loaded from the bundle."""
+    """Validate bundled load commands in each executable's own run-path context.
+
+    Follow LC_RPATH along dependency chains, rather than accepting a matching
+    filename anywhere in the app. This is a conservative packaging preflight:
+    explicit system references are allowed, but optional non-system libraries
+    must still be bundled. Runtime/dlopen and OS compatibility tests remain
+    separate checks.
+    """
     app=app.resolve()
+    images={}
+    dependency_commands={'LC_LOAD_DYLIB','LC_LOAD_WEAK_DYLIB','LC_REEXPORT_DYLIB','LC_LOAD_UPWARD_DYLIB','LC_LAZY_LOAD_DYLIB'}
     for entry in entries:
-        binary=app/entry
-        commands=subprocess.check_output(['otool','-l',str(binary)],text=True)
-        for block in commands.split('Load command ')[1:]:
-            lines=block.splitlines()
-            command=next((line.strip().split()[-1] for line in lines if line.strip().startswith('cmd ')), '')
-            if command not in {'LC_LOAD_DYLIB','LC_LOAD_WEAK_DYLIB','LC_REEXPORT_DYLIB','LC_LOAD_UPWARD_DYLIB','LC_LAZY_LOAD_DYLIB'}:continue
-            name=next(line.strip()[5:].split(' (offset ')[0] for line in lines if line.strip().startswith('name '))
+        binary=(app/entry).resolve()
+        binary.relative_to(app)
+        output=subprocess.check_output(['otool','-hv','-l',str(binary)],text=True)
+        header=next(line.split() for line in output.splitlines() if line.strip().startswith('MH_'))
+        dependencies=[];runpaths=[]
+        for block in output.split('Load command ')[1:]:
+            lines=[line.strip() for line in block.splitlines()]
+            command=next((line.split()[-1] for line in lines if line.startswith('cmd ')), '')
+            if command in dependency_commands:
+                dependencies.append(next(line[5:].split(' (offset ')[0] for line in lines if line.startswith('name ')))
+            elif command=='LC_RPATH':
+                runpaths.append(next(line[5:].split(' (offset ')[0] for line in lines if line.startswith('path ')))
+        images[binary]=(header[4],dependencies,runpaths)
+
+    def expand(name, binary, executable):
+        for prefix,base in [('@loader_path',binary.parent),('@executable_path',executable.parent)]:
+            if name==prefix:return base
+            if name.startswith(prefix+'/'):return base/name[len(prefix)+1:]
+        return Path(name) if name.startswith('/') else None
+
+    reached=set();checked=set()
+    def visit(binary, executable, inherited, chain):
+        if binary in chain:return
+        filetype,dependencies,runpaths=images[binary]
+        paths=tuple(dict.fromkeys(path for name in runpaths if (path:=expand(name,binary,executable)) is not None))+inherited
+        key=(binary,executable,paths)
+        if key in checked:return
+        checked.add(key);reached.add(binary)
+        for name in dependencies:
             if name.startswith(('/usr/lib/','/System/Library/')):continue
             if name.startswith('@rpath/'):
-                suffix=name[len('@rpath/'):]
-                candidates=[path for path in app.rglob(Path(suffix).name) if path.as_posix().endswith('/'+suffix)]
-            elif name.startswith('@loader_path/'):
-                candidates=[binary.parent/name[len('@loader_path/'):]]
-            elif name.startswith('@executable_path/'):
-                container=next(parent for parent in binary.parents if parent.suffix in {'.app','.xpc'})
-                candidates=[container/'Contents/MacOS'/name[len('@executable_path/'):]]
-            else:candidates=[Path(name)]
-            valid=False
+                candidates=[path/name[len('@rpath/'):] for path in paths]
+            else:
+                path=expand(name,binary,executable)
+                candidates=[] if path is None else [path]
+            target=None
             for candidate in candidates:
-                try:
-                    candidate.resolve().relative_to(app)
-                    valid=candidate.is_file()
-                except ValueError:continue
-                if valid:break
-            if not valid:raise RuntimeError(f'Unbundled dependency {name} referenced by {entry}')
+                resolved=candidate.resolve()
+                if not resolved.is_file():continue
+                try:resolved.relative_to(app)
+                except ValueError:
+                    raise RuntimeError(f'External dependency {name} would be selected before bundled alternatives: {binary.relative_to(app)}')
+                if resolved not in images:
+                    raise RuntimeError(f'Dependency is not bundled Mach-O code: {name} referenced by {binary.relative_to(app)}')
+                target=resolved;break
+            if target is None:
+                raise RuntimeError(f'Unbundled dependency {name} referenced by {binary.relative_to(app)} (executable {executable.relative_to(app)}; no reachable bundled library)')
+            visit(target,executable,paths,chain|{binary})
+
+    executables=[binary for binary,(filetype,_,_) in images.items() if filetype=='EXECUTE']
+    if not executables:raise RuntimeError('No executable found for dependency validation')
+    for executable in executables:visit(executable,executable,(),set())
+    for binary in images:
+        if binary not in reached:
+            raise RuntimeError(f'No executable load context for bundled library {binary.relative_to(app)}')
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('app',type=Path);p.add_argument('archive',type=Path);a=p.parse_args()

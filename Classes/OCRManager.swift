@@ -34,7 +34,7 @@ final class OCRLanguage {
     }
 
     fileprivate func checkIfDownloaded(_ to: URL) {
-        if (FileManager.default.fileExists(atPath: to.appendingPathComponent(name, isDirectory: false).path)) {
+        if Self.isValidTrainedData(at: to.appendingPathComponent(name, isDirectory: false)) {
             status = .downloaded
         } else {
             status = .available
@@ -49,23 +49,26 @@ final class OCRLanguage {
         let request = URLRequest(url: remoteURL.appendingPathComponent(name))
 
         let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
-            if let tempLocalUrl = tempLocalUrl, error == nil {
-                // Success
-                do {
-                    let localCompleteURL = localURL.appendingPathComponent(self.name, isDirectory: false)
-                    try FileManager.default.copyItem(at: tempLocalUrl, to: localCompleteURL)
-                    self.status = .downloaded
-                    self.task = nil
-                    completionHandler(.success(localCompleteURL))
-                } catch {
-                    self.status = . available
-                    self.task = nil
-                    completionHandler(.failure(error))
+            defer { session.finishTasksAndInvalidate() }
+            self.task = nil
+            do {
+                if let error = error { throw error }
+                guard let response = response as? HTTPURLResponse,
+                      (200...299).contains(response.statusCode) else {
+                    throw URLError(.badServerResponse)
                 }
-
-            } else if let error = error {
+                guard let tempLocalUrl = tempLocalUrl,
+                      Self.isValidTrainedData(at: tempLocalUrl) else {
+                    throw URLError(.cannotDecodeContentData)
+                }
+                let localCompleteURL = localURL.appendingPathComponent(self.name, isDirectory: false)
+                // Atomic replacement also allows repairing an old corrupt download.
+                let data = try Data(contentsOf: tempLocalUrl, options: .mappedIfSafe)
+                try data.write(to: localCompleteURL, options: .atomic)
+                self.status = .downloaded
+                completionHandler(.success(localCompleteURL))
+            } catch {
                 self.status = .available
-                self.task = nil
                 completionHandler(.failure(error))
             }
         }
@@ -75,6 +78,42 @@ final class OCRLanguage {
 
         task.resume()
         return task
+    }
+
+    /// Tesseract's container starts with a component count and Int64 offsets.
+    /// Check this directory before accepting either a download or an existing file.
+    private static func isValidTrainedData(at url: URL) -> Bool {
+        guard let data = try? Data(contentsOf: url, options: .mappedIfSafe), data.count >= 12 else { return false }
+        func integer(at offset: Int, bytes: Int, littleEndian: Bool) -> UInt64 {
+            var value: UInt64 = 0
+            for index in 0..<bytes {
+                let position = littleEndian ? bytes - 1 - index : index
+                value = (value << 8) | UInt64(data[offset + position])
+            }
+            return value
+        }
+        // Tesseract can read both byte orders.
+        for littleEndian in [true, false] {
+            let count = integer(at: 0, bytes: 4, littleEndian: littleEndian)
+            guard count > 0 && count <= 256 else { continue }
+            let headerSize = 4 + Int(count) * 8
+            guard data.count > headerSize else { continue }
+            var previous = UInt64(headerSize)
+            var hasComponent = false
+            var valid = true
+            for index in 0..<Int(count) {
+                let offset = integer(at: 4 + index * 8, bytes: 8, littleEndian: littleEndian)
+                if offset == UInt64.max { continue } // Absent component (-1).
+                guard offset >= previous && offset < UInt64(data.count) else {
+                    valid = false
+                    break
+                }
+                previous = offset
+                hasComponent = true
+            }
+            if valid && hasComponent { return true }
+        }
+        return false
     }
 
     fileprivate func cancel() {

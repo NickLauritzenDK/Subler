@@ -241,18 +241,26 @@ final class QueueController : NSWindowController, NSWindowDelegate, NSPopoverDel
                     try item.prepare()
                 } catch {
                     DispatchQueue.main.async {
+                        item.status = originalStatus
+                        self.updateUI(indexes: IndexSet(integer: self.queue.index(of: item)))
                         self.presentError(error)
                     }
+                    return
                 }
             }
 
             DispatchQueue.main.async {
+                // Restore the job before any document-opening failure can occur.
+                item.status = originalStatus
+                self.updateUI(indexes: IndexSet(integer: self.queue.index(of: item)))
                 do {
                     var doc: Document?
                     if originalStatus == .completed {
                         try doc = Document(contentsOf: item.destURL, ofType: "")
                     } else if let mp4 = item.mp4File {
                         doc = Document(mp4: mp4)
+                    } else {
+                        throw NSError(domain: "org.subler.Queue", code: 1, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("The queue item could not be prepared for editing.", comment: "Queue edit error")])
                     }
 
                     if let doc = doc {

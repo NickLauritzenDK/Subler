@@ -616,7 +616,7 @@ class QueueChangeAudioLanguageAction : NSObject, QueueActionProtocol {
             let groups = Dictionary(grouping: tracks, by: { $0.alternateGroup })
             for (_, group) in groups {
                 if let track = group.first(where: { $0.language == language && $0.mediaCharacteristicTags.contains("public.main-program-content")}) ?? group.first(where: { $0.language == language }) {
-                    tracks.forEach { $0.isEnabled = false }
+                    group.forEach { $0.isEnabled = false }
                     track.isEnabled = true
                 }
             }
@@ -655,7 +655,7 @@ class QueueChangeSubtitleLanguageAction : NSObject, QueueActionProtocol {
             let groups = Dictionary(grouping: tracks, by: { $0.alternateGroup })
             for (_, group) in groups {
                 if let track = group.first(where: { $0.language == language && $0.mediaCharacteristicTags.contains("public.main-program-content")}) ?? group.first(where: { $0.language == language }) {
-                    tracks.forEach { $0.isEnabled = false }
+                    group.forEach { $0.isEnabled = false }
                     track.isEnabled = true
                 }
             }

@@ -201,7 +201,9 @@ final class Document: NSDocument {
                 let docController = self.windowControllers.first as? DocumentWindowController
                 docController?.setProgress(title: NSLocalizedString("Optimizing…", comment: "Document Optimize sheet."))
             }
-            mp4.optimize()
+            guard mp4.optimize() else {
+                throw NSError(domain: "org.subler.Document", code: 1, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("The file was saved, but could not be optimized.", comment: "Document optimization error")])
+            }
         }
 
         cancelled = false

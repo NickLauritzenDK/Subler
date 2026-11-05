@@ -72,3 +72,9 @@ Actual AAC/AC3 conversions retained baseline metadata, timing, rate, channel cou
 No full multichannel/all-codec corpus, every-feature regression, older macOS/native Intel hardware or automatic-update installation result is claimed. Existing compiler deprecation messages and NASM object platform-load-command warnings do not constitute a warning-free build claim.
 
 The complete upgraded recipe was also rebuilt from a fresh recursive clone at application commit `6dd40f8` and framework commit `ba7f8d7`. All dependency builds, upstream image-library tests, source-verification tests, app build and arm64 baseline/OCR/FFmpeg/audio checks passed. The separately tested Intel slice ran under Rosetta; native Intel hardware and exhaustive interactive UI coverage remain unverified.
+
+## Post-modernization correctness phase
+
+The separate `correctness/post-modernization` branch fixes inherited samplerate/AC3 EOF defects, source/setup/track-write error propagation, queue language/state/persistence handling, OCR HTTP/model validation and optimization failure reporting. Cancellation now wakes FIFO waiters and releases workers after partial setup failure. UI resources and feature choices remain unchanged.
+
+New behavior tests cover true decoded duration/pitch at 22.05/24/32/44.1/48/96 kHz, EOF padding, resampler draining, worker/FIFO cancellation, save failures/retry and application errors. They supplement the frozen official baseline; no reference goldens were regenerated. The build script now runs both arm64 and x86_64 checks on the tested Apple Silicon + Rosetta host.

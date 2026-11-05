@@ -62,12 +62,12 @@ final class Queue {
     }
 
     func saveToDisk() throws {
-        arrayQueue.sync {
+        try arrayQueue.sync {
             let archiver = NSKeyedArchiver(requiringSecureCoding: true)
             archiver.encode(items, forKey: NSKeyedArchiveRootObjectKey)
             archiver.finishEncoding()
 
-            try? archiver.encodedData.write(to: url, options: [.atomic])
+            try archiver.encodedData.write(to: url, options: [.atomic])
         }
     }
 
@@ -151,7 +151,11 @@ final class Queue {
             var failed: UInt = 0
 
             while(true) {
-                try? self.saveToDisk()
+                do {
+                    try self.saveToDisk()
+                } catch {
+                    self.logger.writeError(toLog: error)
+                }
 
                 if let currentItem = self.firstItemInQueue {
                     let result = self.process(currentItem)

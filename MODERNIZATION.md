@@ -70,3 +70,5 @@ Upstream image tests: PNG 37, JPEG 212, TIFF 21 per architecture (540 executions
 Actual AAC/AC3 conversions retained baseline metadata, timing, rate, channel count and decoded frame count. Relative decoded RMS differences were 0.00370% AAC / 0.01771% AC3 on arm64, and 0.00322% / 0.00121% on x86_64, below the stated 0.1% limit. Output is not described as byte-identical after encoding.
 
 No full multichannel/all-codec corpus, every-feature regression, older macOS/native Intel hardware or automatic-update installation result is claimed. Existing compiler deprecation messages and NASM object platform-load-command warnings do not constitute a warning-free build claim.
+
+The complete upgraded recipe was also rebuilt from a fresh recursive clone at application commit `6dd40f8` and framework commit `ba7f8d7`. All dependency builds, upstream image-library tests, source-verification tests, app build and arm64 baseline/OCR/FFmpeg/audio checks passed. The separately tested Intel slice ran under Rosetta; native Intel hardware and exhaustive interactive UI coverage remain unverified.

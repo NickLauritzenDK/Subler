@@ -35,7 +35,7 @@
 ### Task 3: Sparkle and reproducibility
 - [x] Upgrade exact Sparkle pin and Package.resolved to 2.10.1.
 - [x] Wire dependency builds into app build script; document licenses/provenance and limits.
-- [ ] Review complete patch, verify fresh build and tests, publish only our fork branches.
+- [x] Review complete patch, verify fresh build and tests, publish only our fork branches.
 
 ## Execution ledger
 

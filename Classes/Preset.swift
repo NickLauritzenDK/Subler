@@ -18,7 +18,7 @@ protocol Preset: NSSecureCoding, NSCopying {
 extension Preset {
 
     private func appSupportURL() -> URL? {
-        return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?.appendingPathComponent("Subler")
+        return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first.map({ AppIdentity.supportURL(in: $0) })
     }
 
     var fileURL: URL {

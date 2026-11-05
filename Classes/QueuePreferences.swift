@@ -214,6 +214,6 @@ final class QueuePreferences: NSObject {
     }
 
     var queueURL: URL? {
-        return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?.appendingPathComponent("Subler").appendingPathComponent("queue.sbqueue", isDirectory: false)
+        return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first.map({ AppIdentity.supportURL(in: $0) })?.appendingPathComponent("queue.sbqueue", isDirectory: false)
     }
 }

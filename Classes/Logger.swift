@@ -87,7 +87,7 @@ final class Logger : NSObject, MP42Logging {
     private static func appSupportURL() -> URL {
         let fileManager = FileManager.default
         if let url = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask)
-            .first?.appendingPathComponent("Subler") {
+            .first.map({ AppIdentity.supportURL(in: $0) }) {
 
             do {
                 if fileManager.fileExists(atPath: url.path) == false {

@@ -7,6 +7,25 @@
 
 import Foundation
 
+/// Shared identity for app data and the OCR framework. Never imports upstream data.
+enum AppIdentity {
+    static let bundleIdentifier = "dk.nicklauritzen.SublerNeo"
+    static var supportDirectoryName: String {
+        Bundle.main.object(forInfoDictionaryKey: "MP42ApplicationSupportDirectoryName") as? String ?? "Subler Neo"
+    }
+    static func supportURL(in directory: URL) -> URL {
+        directory.appendingPathComponent(supportDirectoryName, isDirectory: true)
+    }
+    static func cacheURL(in directory: URL) -> URL {
+        directory.appendingPathComponent(bundleIdentifier, isDirectory: true)
+    }
+    static let updatesAvailable = false
+    static func configureUpdates(in defaults: UserDefaults) {
+        defaults.set(false, forKey: "SUEnableAutomaticChecks")
+        defaults.set(false, forKey: "SUAutomaticallyUpdate")
+    }
+}
+
 private let ud = UserDefaults.standard
 
 private protocol Registable {

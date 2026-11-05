@@ -134,7 +134,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSHandlerRank</key>
-			<string>Default</string>
+			<string>Alternate</string>
 			<key>NSIsRelatedItemType</key>
 			<true/>
 		</dict>
@@ -147,6 +147,8 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleDisplayName</key>
+	<string>Subler Neo</string>
 	<key>CFBundleName</key>
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundlePackageType</key>
@@ -160,7 +162,7 @@
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.video</string>
 	<key>NSAppleEventsUsageDescription</key>
-	<string>Subler needs access to add movies to iTunes or TV</string>
+	<string>Subler Neo needs access to add movies to iTunes or TV</string>
 	<key>NSAppleScriptEnabled</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
@@ -171,12 +173,12 @@
 	<string>NSApplication</string>
 	<key>OSAScriptingDefinition</key>
 	<string>Subler.sdef</string>
+	<key>MP42ApplicationSupportDirectoryName</key>
+	<string>Subler Neo</string>
+	<key>SUEnableAutomaticChecks</key>
+	<false/>
 	<key>SUAllowsAutomaticUpdates</key>
 	<false/>
-	<key>SUFeedURL</key>
-	<string>https://subler.org/appcast/appcast.xml</string>
-	<key>SUPublicEDKey</key>
-	<string>9M0JrgMq+5MrpLqTu7lT+ffThP8dRp78OQNTklwK/WE=</string>
 	<key>NSAutoFillRequiresTextContentTypeForOneTimeCodeOnMac</key>
 	<true/>
 	<key>UTImportedTypeDeclarations</key>

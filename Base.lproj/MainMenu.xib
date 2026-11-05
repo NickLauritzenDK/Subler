@@ -14,10 +14,10 @@
         <customObject id="-3" userLabel="Application" customClass="SBApplication"/>
         <menu systemMenu="main" id="29" userLabel="MainMenu">
             <items>
-                <menuItem title="Subler" id="56">
-                    <menu key="submenu" title="Subler" systemMenu="apple" id="57">
+                <menuItem title="Subler Neo" id="56">
+                    <menu key="submenu" title="Subler Neo" systemMenu="apple" id="57">
                         <items>
-                            <menuItem title="About Subler" id="58">
+                            <menuItem title="About Subler Neo" id="58">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="orderFrontStandardAboutPanel:" target="-2" id="142"/>
@@ -26,7 +26,7 @@
                             <menuItem title="Check for Updates…" id="529">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="checkForUpdates:" target="530" id="531"/>
+                                    <action selector="checkForUpdates:" target="449" id="531"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Donate…" id="ojS-sZ-qGM">
@@ -52,7 +52,7 @@
                             <menuItem isSeparatorItem="YES" id="144">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Hide Subler" keyEquivalent="h" id="134">
+                            <menuItem title="Hide Subler Neo" keyEquivalent="h" id="134">
                                 <connections>
                                     <action selector="hide:" target="-1" id="367"/>
                                 </connections>
@@ -71,7 +71,7 @@
                             <menuItem isSeparatorItem="YES" id="149">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Quit Subler" keyEquivalent="q" id="136" userLabel="1111">
+                            <menuItem title="Quit Subler Neo" keyEquivalent="q" id="136" userLabel="1111">
                                 <connections>
                                     <action selector="terminate:" target="-3" id="448"/>
                                 </connections>
@@ -483,7 +483,7 @@ CA
                 <menuItem title="Help" id="103" userLabel="1">
                     <menu key="submenu" title="Help" id="106" userLabel="2">
                         <items>
-                            <menuItem title="Subler Help" keyEquivalent="?" id="111">
+                            <menuItem title="Subler Neo Help" keyEquivalent="?" id="111">
                                 <connections>
                                     <action selector="help:" target="449" id="557"/>
                                 </connections>
@@ -500,6 +500,5 @@ CA
                 <outlet property="sendToExternalApp" destination="597" id="Kz4-8d-I4D"/>
             </connections>
         </customObject>
-        <customObject id="530" customClass="SPUStandardUpdaterController"/>
     </objects>
 </document>

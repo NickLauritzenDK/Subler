@@ -128,9 +128,9 @@
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                         </textField>
-                        <button verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="B5v-6Q-3Qa">
+                        <button verticalHuggingPriority="1000" enabled="NO" toolTip="Updates are not available for Subler Neo yet." translatesAutoresizingMaskIntoConstraints="NO" id="B5v-6Q-3Qa">
                             <rect key="frame" x="136" y="316" width="242" height="16"/>
-                            <buttonCell key="cell" type="check" title="Automatically check for update daily" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="2Pf-pq-4IX">
+                            <buttonCell key="cell" type="check" title="Automatically check for update daily" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="2Pf-pq-4IX">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>

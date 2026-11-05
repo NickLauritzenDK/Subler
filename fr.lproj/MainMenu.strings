@@ -13,14 +13,14 @@
 /* Class = "NSMenu"; title = "Window"; ObjectID = "24"; */
 "24.title" = "Fenêtre";
 
-/* Class = "NSMenuItem"; title = "Subler"; ObjectID = "56"; */
-"56.title" = "Subler";
+/* Class = "NSMenuItem"; title = "Subler Neo"; ObjectID = "56"; */
+"56.title" = "Subler Neo";
 
-/* Class = "NSMenu"; title = "Subler"; ObjectID = "57"; */
-"57.title" = "Subler";
+/* Class = "NSMenu"; title = "Subler Neo"; ObjectID = "57"; */
+"57.title" = "Subler Neo";
 
-/* Class = "NSMenuItem"; title = "About Subler"; ObjectID = "58"; */
-"58.title" = "A propos de Subler";
+/* Class = "NSMenuItem"; title = "About Subler Neo"; ObjectID = "58"; */
+"58.title" = "A propos de Subler Neo";
 
 /* Class = "NSMenuItem"; title = "Open…"; ObjectID = "72"; */
 "72.title" = "Ouvrir...";
@@ -46,8 +46,8 @@
 /* Class = "NSMenu"; title = "Help"; ObjectID = "106"; */
 "106.title" = "Aide";
 
-/* Class = "NSMenuItem"; title = "Subler Help"; ObjectID = "111"; */
-"111.title" = "Aide de Subler";
+/* Class = "NSMenuItem"; title = "Subler Neo Help"; ObjectID = "111"; */
+"111.title" = "Aide de Subler Neo";
 
 /* Class = "NSMenuItem"; title = "Revert to Saved"; ObjectID = "112"; */
 "112.title" = "Revenir à la version enregistrée";
@@ -70,11 +70,11 @@
 /* Class = "NSMenuItem"; title = "Services"; ObjectID = "131"; */
 "131.title" = "Services";
 
-/* Class = "NSMenuItem"; title = "Hide Subler"; ObjectID = "134"; */
-"134.title" = "Cacher Subler";
+/* Class = "NSMenuItem"; title = "Hide Subler Neo"; ObjectID = "134"; */
+"134.title" = "Cacher Subler Neo";
 
-/* Class = "NSMenuItem"; title = "Quit Subler"; ObjectID = "136"; */
-"136.title" = "Quitter Subler";
+/* Class = "NSMenuItem"; title = "Quit Subler Neo"; ObjectID = "136"; */
+"136.title" = "Quitter Subler Neo";
 
 /* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "145"; */
 "145.title" = "Cacher les autres";

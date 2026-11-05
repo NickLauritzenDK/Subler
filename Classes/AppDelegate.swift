@@ -64,6 +64,14 @@ final class DocumentController : NSDocumentController {
 @NSApplicationMain
 final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
 
+    @IBAction func checkForUpdates(_ sender: Any?) {
+        let alert = NSAlert()
+        alert.messageText = "Subler Neo Updates"
+        alert.informativeText = "Automatic updates are not available for Subler Neo yet. No update service has been configured for this app."
+        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+        alert.runModal()
+    }
+
     @IBOutlet weak var sendToExternalApp: NSMenuItem!
 
     @MainActor private lazy var prefsController: PrefsWindowController = {
@@ -152,6 +160,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
     }
 
     func applicationWillFinishLaunching(_ notification: Notification) {
+        AppIdentity.configureUpdates(in: UserDefaults.standard)
+        if let caches = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first {
+            let oldCache = URLCache.shared
+            URLCache.shared = URLCache(memoryCapacity: oldCache.memoryCapacity,
+                                       diskCapacity: oldCache.diskCapacity,
+                                       diskPath: AppIdentity.cacheURL(in: caches).path)
+        }
         Prefs.register()
         MetadataPrefs.register()
 
@@ -183,7 +198,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuItemValidation {
 
         if state == .working {
             let alert = NSAlert()
-            alert.messageText = NSLocalizedString("Are you sure you want to quit Subler?", comment: "Quit alert title.")
+            alert.messageText = NSLocalizedString("Are you sure you want to quit Subler Neo?", comment: "Quit alert title.")
             alert.informativeText = NSLocalizedString("Your current queue will be lost. Do you want to quit anyway?", comment: "Quit alert description.")
             alert.addButton(withTitle: NSLocalizedString("Quit", comment: "Quit alert default action."))
             alert.addButton(withTitle: NSLocalizedString("Don't Quit", comment: "Quit alert cancel action."))

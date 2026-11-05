@@ -76,7 +76,9 @@ class Queue {
  init(_ url: URL) { self.url = url }
  func index(of item: QueueItem) -> Int { items.firstIndex(where: { $0 === item }) ?? -1 }
 '''
-pieces = [preamble, block('Queue.swift', '    func saveToDisk() throws'), r'''
+identity_source = (ROOT / 'Classes/Prefs.swift').read_text()
+identity_source = identity_source[identity_source.index('enum AppIdentity {'):identity_source.index('\nprivate let ud')]
+pieces = [preamble, identity_source, block('Queue.swift', '    func saveToDisk() throws'), r'''
 }
 class Document: NSDocument {
  var mp4 = MP4(); var optimize = true; var cancelled = false; var options: [String:Any] = [:]

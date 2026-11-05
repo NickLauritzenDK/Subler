@@ -21,23 +21,17 @@ The old contrib submodule stays pinned for the original traineddata and baseline
 
 Official archive URLs/checksums, compatibility patch, configurations and licenses are recorded under MP42Foundation/Dependencies. Build tooling is pinned locally to tested CMake 4.4.4, Ninja 1.13.2 and NASM 3.02.
 
-## Reproduce
+## Reproduce Subler Neo
+
+Use the local `neo` app branch and `neo/apple-silicon` framework branch. These local branches have not been published.
 
 ```sh
-git clone --branch modernization/official-1.9.5 --recurse-submodules https://github.com/NickLauritzenDK/Subler.git
-cd Subler
-bash scripts/build-modernization.sh
+bash scripts/build-neo.sh
 ```
 
-Requires macOS, Python 3 and Xcode (validated with Xcode 27.2 build 27B52 / SDK 27.2). The script builds the dependency stack, builds Release with both arm64 and x86_64, disables signing for local testing, and runs the baseline, OCR, FFmpeg and audio-conversion checks against the actual app. It requires Rosetta on Apple Silicon for dependency tests. The first build downloads pinned sources/build tools; later verified cache hits are reused. App/test outputs default to ignored build/modernization. Generated dependencies default to MP42Foundation/build/dependencies, matching Xcode defaults. Supply app-output and dependency-output directories as the first and second script arguments.
+Requires an Apple Silicon Mac, Python 3 and Xcode. The recipe builds only arm64 static dependencies and Release `Subler Neo.app`, passing `ARCHS=arm64 ONLY_ACTIVE_ARCH=NO` to the app and framework build. It runs the native arm64 regression, OCR, FFmpeg, audio, save and FIFO checks. Outputs default to ignored `build/neo`; dependencies default to `MP42Foundation/build/dependencies`. Optional first and second arguments select those directories. Pinned sources/tools download on first build; verified completion stamps permit later reuse. A cache hit does not rerun dependency tests. No installation, notarization or publishing is performed.
 
-The modernized projects now declare macOS 13 as their deployment target, matching the validated build and new dependency requirements. The original upstream target was 10.13. Xcode 27 cannot target 10.13; this build does **not** establish support for 10.13–12. No installation, signing identity, notarization, updater installation or App Store distribution is performed.
-
-To exercise Intel code on an Apple Silicon machine with Rosetta installed:
-
-```sh
-python3 MP42Foundation/Tests/run-tests.py build/modernization/DerivedData/Build/Products/Release/Subler.app build/modernization/Tests-x86_64 --arch x86_64
-```
+macOS 13 remains the minimum. The historical verification below describes predecessor modernization builds, including their earlier architecture coverage; it is not a claim about Neo validation.
 
 ## Verification recorded 2026-11-05
 

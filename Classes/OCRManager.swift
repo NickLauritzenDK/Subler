@@ -269,7 +269,7 @@ final class OCRManager {
     }
 
     private lazy var destinationURL = {
-        return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first?.appendingPathComponent("Subler", isDirectory: true).appendingPathComponent("tessdata", isDirectory: true).appendingPathComponent("v4", isDirectory: true)
+        return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first.map({ AppIdentity.supportURL(in: $0) })?.appendingPathComponent("tessdata", isDirectory: true).appendingPathComponent("v4", isDirectory: true)
     }()
 
     private lazy var baseURL = {

@@ -1,0 +1,129 @@
+{
+  "fill": {
+    "linear-gradient": [
+      "extended-srgb:0.015,0.630,1.000,1.000",
+      "extended-srgb:0.000,0.420,0.930,1.000"
+    ]
+  },
+  "groups": [
+    {
+      "layers": [
+        {
+          "image-name": "Stylus.svg",
+          "name": "Stylus",
+          "glass": true,
+          "fill": {
+            "solid": "extended-gray:0.85,1"
+          },
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "opacity": 1,
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.3
+      },
+      "specular": true,
+      "translucency": {
+        "enabled": true,
+        "value": 0.04
+      }
+    },
+    {
+      "layers": [
+        {
+          "image-name": "SubtitleCard.svg",
+          "name": "SubtitleCard",
+          "glass": true,
+          "fill": {
+            "solid": "extended-gray:1.00000,1.00000"
+          },
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "opacity": 1,
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.3
+      },
+      "specular": true,
+      "translucency": {
+        "enabled": true,
+        "value": 0.04
+      }
+    },
+    {
+      "layers": [
+        {
+          "image-name": "FilmFrame.svg",
+          "name": "FilmFrame",
+          "glass": true,
+          "fill": {
+            "solid": "extended-gray:1.00000,1.00000"
+          },
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "opacity": 1,
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.2
+      },
+      "specular": true,
+      "translucency": {
+        "enabled": true,
+        "value": 0.02
+      }
+    },
+    {
+      "layers": [
+        {
+          "image-name": "FilmGlass.svg",
+          "name": "FilmGlass",
+          "glass": true,
+          "fill": {
+            "solid": "extended-srgb:0.040,0.400,0.860,1.000"
+          },
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "opacity": 0.9,
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.12
+      },
+      "specular": true,
+      "translucency": {
+        "enabled": true,
+        "value": 0.35
+      }
+    }
+  ],
+  "supported-platforms": {
+    "squares": "shared"
+  }
+}

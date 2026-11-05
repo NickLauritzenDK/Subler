@@ -33,6 +33,7 @@ python3 MP42Foundation/Tests/run-tests.py build/modernization/DerivedData/Build/
 - File workflows include two AAC tracks, UTF-8 SRT subtitles, chapters, Unicode metadata, save/reopen, deletion/movement undo/redo, encoded sample hashes and timing comparisons.
 - The unmodified available framework demonstrably fails the missing-API test. An intermediate repair failed seven additional state cases; the final repair passes them.
 - Independent source/test review reran the arm64 suite and found no actionable issues.
+- A completely fresh recursive clone from our GitHub fork fetched both pinned submodules, built successfully using scripts/build-modernization.sh, and passed the complete arm64 suite without using old working copies.
 - Tests intentionally retain 19 official reverse-ordered multi-removal exception outcomes and the official chapter-replacement undo limitation. They are documented inherited behavior, not successful undo operations.
 
 Full test harness and official reference provenance are in MP42Foundation/Tests. These results are targeted evidence; they do not prove every UI/workflow/codec matches. No native Intel hardware, older OS, complete OCR, malformed media, artwork, queue persistence, AppleScript, metadata-service network or automatic-update installation acceptance is claimed.

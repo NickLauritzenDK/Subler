@@ -35,8 +35,8 @@
 - [x] Commit verified framework repair and tests in our fork.
 - [x] Change Subler .gitmodules and gitlink on modernization branch only.
 - [x] Add build instructions, pinned provenance and validation results.
-- [ ] Verify fresh recursive source retrieval, rebuild, rerun tests; report remaining modernization work.
+- [x] Verify fresh recursive source retrieval, rebuild, rerun tests; report remaining modernization work.
 
 ## Validation ledger
 
-The framework patch is committed as 7f38350e1abdbde8f1968c71e8c89594ddb5fce8. Original-source API test failed before repair; 454 characterization traces, 14 checks and 5 real media workflows pass on arm64 and x86_64/Rosetta after repair. App and framework Release builds produce both slices. Independent review found no actionable issues. Final fresh-clone retrieval/build is required before reporting end-to-end reproducibility.
+The framework patch is committed as 7f38350e1abdbde8f1968c71e8c89594ddb5fce8. Original-source API test failed before repair; 454 characterization traces, 14 checks and 5 real media workflows pass on arm64 and x86_64/Rosetta after repair. App and framework Release builds produce both slices. Independent review found no actionable issues. Fresh recursive clone of Subler f4698a2c6beaeff99a3a017b39ba681231670b3a fetched MP42Foundation 7f38350e1abdbde8f1968c71e8c89594ddb5fce8 and contrib debd14253dba88addfd918d144fb7872a9e075f7. The documented build script completed successfully and the complete arm64 suite passed. Source recovery milestone complete; dependency upgrades remain the next stage.

@@ -12,6 +12,7 @@ python3 "$repo_root/Tests/neo-identity.py"
 python3 "$repo_root/Tests/test-neo-package.py"
 python3 "$repo_root/MP42Foundation/Tests/run-neo-ocr-path.py" "$build_root/Neo-OCR-path"
 python3 "$repo_root/Tests/app-correctness.py"
+python3 "$repo_root/Tests/queue-cancellation.py"
 python3 "$repo_root/MP42Foundation/Tests/test-source-verification.py"
 python3 "$repo_root/MP42Foundation/Tests/test-arm64-recipe.py"
 python3 "$repo_root/MP42Foundation/scripts/build-dependencies.py" "$dependency_root" --components all
@@ -33,6 +34,8 @@ for test_arch in arm64; do
   python3 "$repo_root/MP42Foundation/Tests/run-save-failures.py" "$app" "$build_root/Save-tests-$test_arch" --arch "$test_arch"
   python3 "$repo_root/MP42Foundation/Tests/run-fifo-test.py" "$app" "$build_root/FIFO-tests-$test_arch" --arch "$test_arch"
 done
+
+python3 "$repo_root/Tests/audio-formats.py" "$app" "$build_root/Audio-formats"
 
 # Keep notices for the new static dependencies with the local test bundle.
 licenses="$app/Contents/Resources/DependencyLicenses"

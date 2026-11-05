@@ -79,10 +79,6 @@ final class Queue {
 
     private func process(_ item: QueueItem) -> ProcessResult {
         return autoreleasepool { () -> ProcessResult in
-            self.arrayQueue.sync {
-                self.currentItem = item
-            }
-
             item.status = .working
             item.delegate = self
 
@@ -112,18 +108,18 @@ final class Queue {
                     return .completed
                 }
             } catch {
-                item.status = .failed
-                self.handleSBStatusFailed(error: error)
-
                 var cancelled = false
                 self.arrayQueue.sync {
                     cancelled = self.cancelled
                 }
 
                 if cancelled {
+                    item.status = .cancelled
                     self.handleSBStatusCancelled()
                     return .cancelled
                 } else {
+                    item.status = .failed
+                    self.handleSBStatusFailed(error: error)
                     return .failed
                 }
             }
@@ -212,7 +208,11 @@ final class Queue {
     private var firstItemInQueue: QueueItem? {
         get {
             return arrayQueue.sync {
+                guard !cancelled else { return nil }
                 let first = items.first(where: { $0.status == .ready })
+                // Claim the item under the same lock used by stop(), so a
+                // concurrent stop cannot miss it between selection and work.
+                currentItem = first
                 first?.status = .working
                 return first
             }

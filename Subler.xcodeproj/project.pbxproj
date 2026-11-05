@@ -1564,7 +1564,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.galad.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = Subler;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/MP42Foundation/contrib/mp4v2/";
+				MP42_MP4V2_ROOT = "$(SRCROOT)/MP42Foundation/build/dependencies/mp4v2";
+                SWIFT_INCLUDE_PATHS = "\"$(MP42_MP4V2_ROOT)/include\"";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1609,7 +1610,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.galad.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = Subler;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/MP42Foundation/contrib/mp4v2/";
+				MP42_MP4V2_ROOT = "$(SRCROOT)/MP42Foundation/build/dependencies/mp4v2";
+                SWIFT_INCLUDE_PATHS = "\"$(MP42_MP4V2_ROOT)/include\"";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
@@ -1693,7 +1695,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "c11 gnu++14";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "";
@@ -1779,7 +1781,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "c11 gnu++14";
 				OTHER_CFLAGS = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
@@ -1819,7 +1821,7 @@
 			repositoryURL = "https://github.com/sparkle-project/Sparkle";
 			requirement = {
 				kind = exactVersion;
-				version = 2.9.6;
+				version = 2.10.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

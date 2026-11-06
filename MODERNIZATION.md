@@ -1,12 +1,14 @@
-# Subler 1.9.5 component modernization
+# Subler modernization history and Neo reproduction
 
-## Scope and source
+This document preserves the original modernization evidence. The current app is Subler Neo 1.0 (build 4), arm64-only, with a separate identity and an approved new icon. See [docs/STATUS.md](docs/STATUS.md) for current scope; universal/Intel results below describe historical predecessor builds.
+
+## Historical scope and source
 
 This branch starts at official Subler 1.9.5, `9077b6d149be621ff7d7b0d8eb46839a56610844`. It retains the application source, UI resources, assets, localizations, AppleScript dictionary and original feature code. No earlier custom OCR/settings/audio-policy changes are included.
 
 The release's MP42Foundation gitlink `4648f9d585b38957a797bdb13632497abdbe4dfe` could not be fetched from its official origin. We do not claim to have recovered that source. Instead, our fork starts at the reachable `bfa477b799ce55716f744638e6dfe3f23d39c5d7` and repairs indexed track insertion, removal undo ordering and reversible track movement. The repaired baseline commit was `7f38350e1abdbde8f1968c71e8c89594ddb5fce8`. Component upgrades build on that repair; the application gitlink pins the exact updated revision in https://github.com/NickLauritzenDK/MP42Foundation.
 
-The old contrib submodule stays pinned for the original traineddata and baseline headers. The production link now explicitly selects newly source-built universal dependency archives; it does not silently fall back to the old contrib libraries.
+The old contrib submodule stays pinned for the original traineddata and baseline headers. At the original modernization milestone, the production link explicitly selected newly source-built universal dependency archives. Neo now selects arm64-only archives; it does not silently fall back to the old contrib libraries.
 
 | Component | Baseline | Updated |
 | --- | --- | --- |
@@ -23,7 +25,7 @@ Official archive URLs/checksums, compatibility patch, configurations and license
 
 ## Reproduce Subler Neo
 
-Use the local `neo` app branch and `neo/apple-silicon` framework branch. These local branches have not been published.
+Use `neo/apple-silicon` in NickLauritzenDK/Subler. The committed submodule reference selects the exact framework revision from NickLauritzenDK/MP42Foundation; both repositories use the same branch name. A recursive clone is required.
 
 ```sh
 bash scripts/build-neo.sh
@@ -51,7 +53,7 @@ The updated framework/app build succeeds with all selected components. Component
 
 Copied Matroska/MPEG4IP/SFIFO/parser/muxer code and macOS-supplied libraries are retained and distinguished from updated archives. See MP42Foundation/Dependencies/README.md and Tests/README.md for configuration, measured verification and coverage limits. No claim is made that every inherited source component is the newest release.
 
-The app's Swift/Objective-C interface source, windows, menus, assets, localizations and scripting dictionary remain unchanged from official 1.9.5. Build configuration, the updater package and underlying framework/dependencies are updated. This is source/resource preservation plus targeted behavior coverage, not full visual or every-feature acceptance.
+At the original modernization milestone, the app's Swift/Objective-C interface source, windows, menus, assets, localizations and scripting dictionary were retained from official 1.9.5. Neo later changed its identity, branding, icon and update handling; see the current status document. Build configuration, the updater package and underlying framework/dependencies are updated. This is source/resource preservation plus targeted behavior coverage, not full visual or every-feature acceptance.
 
 PGS OCR enhancements, new OCR choices, redesigned settings and additional Apple Silicon performance optimization remain separate later phases. No application is installed or replaces the user's current app; unsigned/ad-hoc local builds are not notarized distribution releases. The upstream repositories and our mirror main branches are unchanged.
 

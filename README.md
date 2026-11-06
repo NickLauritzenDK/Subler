@@ -1,12 +1,26 @@
 # Subler Neo
 
-Subler Neo is a separate Apple Silicon-only application based on official Subler 1.9.5, with modernized dependencies and targeted correctness fixes. macOS 13 or newer is required. Its identity (`dk.nicklauritzen.SublerNeo`), preferences, cache, queue, presets and OCR downloads are separate from Subler. No automatic data migration is performed.
+![Subler Neo icon](docs/assets/subler-neo-icon.png)
 
-Build with `scripts/build-neo.sh`. The resulting local test ZIP is ad-hoc signed, not notarized. Neo does not use the official Subler update feed; its own signed update service is not configured yet. The native Icon Composer icon is provisional; further design refinement remains open.
+Subler Neo 1.0 (build 4) is a separate Apple Silicon-only app based on official Subler 1.9.5, with modernized dependencies, targeted correctness fixes and the approved layered Icon Composer icon. Requires macOS 13 or newer.
 
-The original Subler project and its contributors retain their credits and licenses. Historical upstream information follows.
+Its preferences, cache, queue, presets and OCR downloads use the separate identity `dk.nicklauritzen.SublerNeo`. No automatic migration from Subler is performed. Credits and licenses are retained.
 
-# README #
+## Build
+
+```sh
+git clone --branch neo/apple-silicon --recurse-submodules https://github.com/NickLauritzenDK/Subler.git
+cd Subler
+bash scripts/build-neo.sh
+```
+
+Requires an Apple Silicon Mac, Xcode and Python 3. The script downloads pinned sources/tools, builds arm64 dependencies, runs targeted regressions and packages a locally signed test app. It does not install the app or publish a release.
+
+The test app is ad-hoc signed, not notarized. Neo's own signed update service is not configured; automatic updates are disabled and the official Subler feed is not used.
+
+[Current status and remaining work](docs/STATUS.md) · [Build/verification history](MODERNIZATION.md) · [Neo identity](NEO.md) · [Tests](Tests/README.md)
+
+## Historical upstream project information
 
 ### What is this repository for? ###
 

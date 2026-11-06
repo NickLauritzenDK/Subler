@@ -1,129 +1,220 @@
 {
-  "fill": {
-    "linear-gradient": [
-      "extended-srgb:0.015,0.630,1.000,1.000",
-      "extended-srgb:0.000,0.420,0.930,1.000"
+  "fill" : {
+    "linear-gradient" : [
+      "extended-srgb:0.14000,0.24000,0.28000,1.00000",
+      "extended-srgb:0.08500,0.08000,0.15000,1.00000"
     ]
   },
-  "groups": [
+  "groups" : [
     {
-      "layers": [
+      "layers" : [
         {
-          "image-name": "Stylus.svg",
-          "name": "Stylus",
-          "glass": true,
-          "fill": {
-            "solid": "extended-gray:0.85,1"
-          },
-          "position": {
-            "scale": 1,
-            "translation-in-points": [
+          "glass" : false,
+          "image-name" : "MetalStylus.svg",
+          "name" : "Silver cylinder and graphite tip",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
               0,
               0
             ]
           }
         }
       ],
-      "opacity": 1,
-      "shadow": {
-        "kind": "neutral",
-        "opacity": 0.3
+      "name" : "Floating machined stylus",
+      "opacity" : 1,
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.48
       },
-      "specular": true,
-      "translucency": {
-        "enabled": true,
-        "value": 0.04
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.02
       }
     },
     {
-      "layers": [
+      "layers" : [
         {
-          "image-name": "SubtitleCard.svg",
-          "name": "SubtitleCard",
-          "glass": true,
-          "fill": {
-            "solid": "extended-gray:1.00000,1.00000"
+          "glass" : false,
+          "image-name" : "SubtitleLines.svg",
+          "name" : "Luminous inset subtitle lines",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "image-name" : "PlateReflections.svg",
+          "name" : "Curved face reflections",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "solid" : "extended-srgb:0.76000,0.94000,0.91000,1.00000"
           },
-          "position": {
-            "scale": 1,
-            "translation-in-points": [
+          "glass" : true,
+          "image-name" : "PlateGlassRim.svg",
+          "name" : "Polished native glass rim",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "image-name" : "PlateFace.svg",
+          "name" : "Transparent petrol glass face",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "image-name" : "PlateThickness.svg",
+          "name" : "Visible glass side thickness",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
               0,
               0
             ]
           }
         }
       ],
-      "opacity": 1,
-      "shadow": {
-        "kind": "neutral",
-        "opacity": 0.3
+      "name" : "Floating smoked subtitle glass",
+      "opacity" : 1,
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.46
       },
-      "specular": true,
-      "translucency": {
-        "enabled": true,
-        "value": 0.04
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.025
       }
     },
     {
-      "layers": [
+      "layers" : [
         {
-          "image-name": "FilmFrame.svg",
-          "name": "FilmFrame",
-          "glass": true,
-          "fill": {
-            "solid": "extended-gray:1.00000,1.00000"
-          },
-          "position": {
-            "scale": 1,
-            "translation-in-points": [
+          "glass" : false,
+          "image-name" : "FilmMachining.svg",
+          "name" : "Perforation bevels and polished edges",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "image-name" : "FilmStructure.svg",
+          "name" : "Directional satin metal face",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "image-name" : "FilmThickness.svg",
+          "name" : "Visible filmstrip sidewalls",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
               0,
               0
             ]
           }
         }
       ],
-      "opacity": 1,
-      "shadow": {
-        "kind": "neutral",
-        "opacity": 0.2
+      "name" : "Dimensional tilted filmstrip",
+      "opacity" : 1,
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.4
       },
-      "specular": true,
-      "translucency": {
-        "enabled": true,
-        "value": 0.02
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.01
       }
     },
     {
-      "layers": [
+      "layers" : [
         {
-          "image-name": "FilmGlass.svg",
-          "name": "FilmGlass",
-          "glass": true,
-          "fill": {
-            "solid": "extended-srgb:0.040,0.400,0.860,1.000"
-          },
-          "position": {
-            "scale": 1,
-            "translation-in-points": [
+          "glass" : false,
+          "image-name" : "LensReflections.svg",
+          "name" : "Curved cell reflections",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "image-name" : "FilmCells.png",
+          "name" : "Mountain and lake imagery",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "image-name" : "AmbientLight.svg",
+          "name" : "Warm key light and cool edge light",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
               0,
               0
             ]
           }
         }
       ],
-      "opacity": 0.9,
-      "shadow": {
-        "kind": "neutral",
-        "opacity": 0.12
+      "name" : "Recessed photographic film cells",
+      "opacity" : 1,
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0
       },
-      "specular": true,
-      "translucency": {
-        "enabled": true,
-        "value": 0.35
+      "specular" : false,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.01
       }
     }
   ],
-  "supported-platforms": {
-    "squares": "shared"
+  "supported-platforms" : {
+    "squares" : "shared"
   }
 }

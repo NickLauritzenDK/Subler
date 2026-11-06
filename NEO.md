@@ -1,11 +1,11 @@
-# Subler Neo 1.0 (3)
+# Subler Neo 1.0 (4)
 
 Separat Apple Silicon-app baseret på den moderniserede Subler 1.9.5-kode. Minimum macOS 13. Eksisterende funktioner og hovedvindue er bevaret; navn, ikon og app-identitet er adskilt.
 
 - Eget bundle-id: dk.nicklauritzen.SublerNeo.
 - Egne indstillinger, cache og Application Support/Subler Neo. Ingen automatisk import eller ændring af originalens data.
 - Intel-understøttelse fjernet, også fra de indbyggede Sparkle-hjælpeprogrammer.
-- Foreløbigt native Icon Composer-ikon. Mere detaljeret ikon er stadig en åben designopgave.
+- Godkendt native Icon Composer-ikon med tonet undertekstplade, lagdybde og detaljeret filmramme.
 - Automatisk opdatering er deaktiveret, indtil Neo har sin egen opdateringstjeneste og nøgle.
 - Testpakken er lokalt signeret, ikke notariseret (Apple har ikke godkendt den til distribution).
 
@@ -18,3 +18,5 @@ Fem eksisterende Subler-filer var uændrede i det kontrollerede interval omkring
 PGS-OCR-forbedringer og yderligere optimering er fortsat separate senere faser.
 
 Seneste korrekthedsrettelser: se docs/NEO-QUEUE-AUDIO-REVIEW.md. Køannullering, ALAC og AAC-timing er rettet og verificeret i build 3.
+
+Build 4 indbygger det nye godkendte ikon. Se docs/NEO-ICON.md for verificering.

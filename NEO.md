@@ -1,4 +1,4 @@
-# Subler Neo 1.0 (4)
+# Subler Neo 1.0 (5)
 
 Separat Apple Silicon-app baseret på den moderniserede Subler 1.9.5-kode. Minimum macOS 13. Eksisterende funktioner og hovedvindue er bevaret; navn, ikon og app-identitet er adskilt.
 
@@ -20,3 +20,5 @@ PGS-OCR-forbedringer og yderligere optimering er fortsat separate senere faser.
 Seneste korrekthedsrettelser: se docs/NEO-QUEUE-AUDIO-REVIEW.md. Køannullering, ALAC og AAC-timing er rettet og verificeret i build 3.
 
 Build 4 indbygger det nye godkendte ikon. Se docs/NEO-ICON.md for verificering.
+
+Build 5 retter MKV-lydtiming og negative tidsstempler samt Opus-slutpadding. Se docs/NEO-MKV-TIMING.md for uafhængige audiovisuelle tests og begrænsninger. Ikonet er uændret fra build 4.

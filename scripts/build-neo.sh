@@ -36,6 +36,10 @@ for test_arch in arm64; do
 done
 
 python3 "$repo_root/Tests/audio-formats.py" "$app" "$build_root/Audio-formats"
+python3 "$repo_root/Tests/mkv-timing.py" "$app" "$build_root/MKV-timing"
+if [[ -n "${NEO_FFMPEG_TEST_TOOLS:-}" ]]; then
+  python3 "$repo_root/Tests/mkv-extended.py" "$NEO_FFMPEG_TEST_TOOLS" "$app" "$build_root/MKV-extended"
+fi
 
 # Keep notices for the new static dependencies with the local test bundle.
 licenses="$app/Contents/Resources/DependencyLicenses"

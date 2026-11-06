@@ -2,14 +2,14 @@
 
 ## Current version
 
-1.0 (build 4), macOS 13+, Apple Silicon only. The approved Icon Composer design is in `NeoAppIcon.icon`: 12 editable layers in four groups, using silver, smoked subtitle glass, a tilted filmstrip and a metal stylus. Intel support was deliberately removed from Neo, including embedded helper executables.
+1.0 (build 5), macOS 13+, Apple Silicon only. The approved Icon Composer design is in `NeoAppIcon.icon`: 12 editable layers in four groups, using silver, smoked subtitle glass, a tilted filmstrip and a metal stylus. Intel support was deliberately removed from Neo, including embedded helper executables.
 
 ## Achieved
 
 - Official Subler 1.9.5 provenance retained; reachable framework source reconstructed where the release gitlink was unavailable. Dependency sources/checksums and patches are recorded in the framework repository.
 - Frameworks/libraries/build tooling modernized; separate Neo settings, data and update identity. No automatic migration from original Subler.
 - Targeted correctness fixes include saving failures, audio rate/EOF handling, queue choices/state/persistence, OCR download validation, cancellation, ALAC configuration/channels and AAC presentation timing for tested lossless-source paths.
-- Build 4 integrates the approved new icon. Conversion code is unchanged from build 3.
+- Build 4 integrated the approved icon. Build 5 fixes independently reproduced MKV audio timing, negative timestamp wrap and terminal Opus padding; the icon is unchanged.
 
 ## Verification scope
 
@@ -17,9 +17,11 @@ Build 3 passed the complete targeted arm64 regression stages and 38 synthetic au
 
 Build 4 passed Release build, identity checks, 15 packaging tests, strict archive/signature/arm64 verification and manual startup/About inspection with the new icon. The complete audio matrix was not repeated for this icon-only update. The original official-reference tests and immutable goldens remain in the framework Tests directory. Historical Intel/Rosetta results are not claims about current Neo support.
 
+Build 5 passed a fresh Release build and strict unpacked signature/identity/seven-arm64-image verification. The packaged app passes 21 independent MKV audiovisual cases, 18 platform MKV cases, 473 baseline scenarios/checks, identity and 15 packaging tests, plus audio EOF/rate/cancellation correctness tests. The isolated corrected framework also passes all 38 general audio cases. See the MKV report for reproduced build 4 failures and decoder-specific padding distinctions.
+
 ## Open work, in priority order
 
-1. Validate Matroska/MKV audio presentation timing with a dedicated fixture before changing that importer's edit handling. The lossless AAC correction is deliberately limited to tested AVFoundation/MP4 paths.
+1. Broaden MKV acceptance beyond the passing 21 independent compressed/lossless audiovisual cases and 18 platform lossless cases: real files/players, H264/HEVC B-frames, internal discontinuities, midstream/negative discard, lacing, surround and multiple audio tracks. See [MKV evidence and limits](NEO-MKV-TIMING.md).
 2. Measure conversion speed, CPU and peak memory on Apple Silicon before selecting performance changes. Modernization alone does not establish a speed or quality improvement.
 3. Broader real-media/long-file, codec, audiovisual-sync, listening, surround hardware and cancellation coverage. macOS 13 has not been tested on a physical machine.
 4. Feature acceptance where still unverified: AppleScript, Apple TV transfer, live metadata providers and full OCR-language-download workflows.

@@ -2,7 +2,7 @@
 
 ![Subler Neo icon](docs/assets/subler-neo-icon.png)
 
-Subler Neo 1.0 (build 4) is a separate Apple Silicon-only app based on official Subler 1.9.5, with modernized dependencies, targeted correctness fixes and the approved layered Icon Composer icon. Requires macOS 13 or newer.
+Subler Neo 1.0 (build 5) is a separate Apple Silicon-only app based on official Subler 1.9.5, with modernized dependencies, targeted correctness fixes and the approved layered Icon Composer icon. Requires macOS 13 or newer.
 
 Its preferences, cache, queue, presets and OCR downloads use the separate identity `dk.nicklauritzen.SublerNeo`. No automatic migration from Subler is performed. Credits and licenses are retained.
 

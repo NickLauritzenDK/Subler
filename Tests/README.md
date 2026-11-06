@@ -92,3 +92,13 @@ presentation edits; these use AVFoundation's interpreted media timeline because
 afconvert's raw decode can omit intentional edit gaps/trims. The helper also
 checks actual decoder initialization with 24-byte and 36-byte ALAC configurations
 and rejection of a malformed 23-byte configuration. Matroska timing is not covered.
+
+## MKV lossless presentation timing
+
+`python3 Tests/mkv-timing.py APP_OR_FRAMEWORK EVIDENCE_DIRECTORY` generates deterministic PCM/ALAC Matroska files without downloading media or requiring an external muxer. It checks 18 stereo conversions (32/44.1/48 kHz; 0/250/1000 ms start), AVFoundation presentation segments, decoded tone onset/end/pitch, rate and channels. Raw MP4 edit tables and command logs are retained. macOS audio services must be accessible.
+
+See [coverage and findings](../docs/NEO-MKV-TIMING.md). This does not cover compressed-source codec delay, discard padding, negative timestamps, discontinuities or audiovisual playback sync.
+
+## Independent compressed MKV / audiovisual regression
+
+`python3 Tests/mkv-extended.py FFMPEG_TOOL_DIRECTORY APP OUTPUT_DIRECTORY` compares 21 synthetic PCM/FLAC/AAC/AC3/EAC3/DTS/Opus conversions with -100/0/+250 ms offsets, decoded pulse timing, exact decoded video hashes, video PTS and raw MP4 presentation edits. It explicitly checks Opus skip/discard fixture metadata. Requires separately built FFmpeg/ffprobe test tools and macOS audio services. See [reproduction and limits](../docs/NEO-MKV-TIMING.md).
